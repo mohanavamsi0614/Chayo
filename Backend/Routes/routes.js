@@ -47,16 +47,16 @@ const transporter = nodemailer.createTransport({
 
 // Middleware to verify JWT
 function verifyToken(req, res, next) {
-  const token = req.headers['authorization'];
+  const token = req.headers["authorization"];
   if (!token) {
-    res.status(403).json({ message: 'No token provided' });
+    res.status(403).json({ message: "No token provided" });
   }
-  
+
   jwt.verify(token, process.env.JWT, (err, decoded) => {
     if (err) {
-      res.status(401).json({ message: 'Invalid token' });
+      res.status(401).json({ message: "Invalid token" });
     }
-    console.log(decoded)
+    console.log(decoded);
     next();
   });
 }
@@ -85,7 +85,7 @@ app.get("/data/:roomid", verifyToken, async (req, res) => {
 
 app.get("/users", async (req, res) => {
   try {
-    const users = await user.find({}); 
+    const users = await user.find({});
     res.status(200).json(users);
   } catch (error) {
     console.error("Error retrieving users:", error);
@@ -116,13 +116,15 @@ app.post("/sign", async (req, res) => {
     } else if (check2) {
       res.status(400).json({ message: "Username already taken." });
     } else if (signvalid.validate(req.body).error) {
-      res.status(400).json({ message: signvalid.validate(req.body).error.message });
+      res
+        .status(400)
+        .json({ message: signvalid.validate(req.body).error.message });
     } else {
       await user.create({
         name: username,
         email: email,
         password: hash(password),
-        photo: photo
+        photo: photo,
       });
 
       var welcome = {
@@ -134,7 +136,9 @@ app.post("/sign", async (req, res) => {
 
       await transporter.sendMail(welcome);
 
-      res.status(201).json({ message: "User Created!!", username: username, photo: photo });
+      res
+        .status(201)
+        .json({ message: "User Created!!", username: username, photo: photo });
     }
   } catch (error) {
     console.log("Error in sign up:", error);
@@ -152,17 +156,26 @@ app.post("/login", async (req, res) => {
         if (hash(password) === check.password) {
           const token = jwt.sign(
             { id: check._id, email: check.email, username: check.name },
-            process.env.JWT          );
-          res.json({ token: token, username: check.name, message: "ok", photo: check.photo });
+            process.env.JWT
+          );
+          res
+            .status(200)
+            .json({
+              token: token,
+              username: check.name,
+              message: "ok",
+              photo: check.photo,
+            });
         } else {
-
           res.status(401).json({ message: "Password is wrong" });
         }
       } else {
         res.status(404).json({ message: "User not in database" });
       }
     } else {
-      res.status(400).json({ message: loginvalid.validate(req.body).error.message });
+      res
+        .status(400)
+        .json({ message: loginvalid.validate(req.body).error.message });
     }
   } catch (error) {
     console.error("Error in login:", error);
@@ -178,9 +191,14 @@ app.post("/check", async (req, res) => {
       const token = jwt.sign(
         { id: check._id, email: check.email, username: check.name },
         process.env.JWT,
-        { expiresIn: '24h' }
+        { expiresIn: "24h" }
       );
-      res.json({ token: token, username: check.name, message: "login", photo: check.photo });
+      res.json({
+        token: token,
+        username: check.name,
+        message: "login",
+        photo: check.photo,
+      });
     } else {
       res.send({ message: "sign" });
     }
