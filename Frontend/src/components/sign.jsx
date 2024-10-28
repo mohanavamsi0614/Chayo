@@ -22,7 +22,7 @@ function Sigin() {
         console.log(data);
         if (Object.keys(data).length==4 && valid) {
         setload(true);
-            axios.post("https://s60-mohanavamsi-chayo-2ovy.onrender.com/sign", data)
+            axios.post("https://s60-mohanavamsi-chayo-ra7t.onrender.com/sign", data)
                 .then((res) => {
                     const response = res;
                     console.log(response);
@@ -70,7 +70,7 @@ function Sigin() {
             {error.login && (
                 <div className="w-70 bg-red-400 text-white rounded-xl p-4">{error.login}</div>
             )}
-            
+            <div onClick={()=>{setload(true)}}><Fire/></div>
             <div className="w-80 rounded-2xl bg-black border-white">
                 <div className="flex flex-col gap-2 p-8">
                     <p className="text-center text-3xl text-gray-300 mb-4">Sign</p>
@@ -141,13 +141,9 @@ function Sigin() {
   ></div>
 </div>
 )}
-<br />
-<center><div onClick={()=>{setload(true)}}><Fire/></div></center>
                     <Link className="text-purple-600 text-center" to={"/login"}>
                         Login
                     </Link>
-
-                    
                 </div>
             </div>
             <ToastContainer/>

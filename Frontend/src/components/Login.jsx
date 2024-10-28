@@ -19,7 +19,7 @@ function Login() {
         console.log(data)
         console.log((Object.keys(data)))
         if (Object.keys(data).length==2){
-        axios.post("https://s60-mohanavamsi-chayo-2ovy.onrender.com/login",data).then(
+        axios.post("https://s60-mohanavamsi-chayo-ra7t.onrender.com/login",data).then(
             (res)=>{
               setload(true)
                 const response=res
@@ -44,7 +44,7 @@ function Login() {
     return(
         <div className="h-screen bg-gray-950 flex justify-center items-center flex-col">
      {error.login && (<div className=" w-70 bg-red-400 text-white rounded-xl p-4">{error.login}</div>)}
-     
+     <div onClick={()=>{setload(true)}}><Fire/></div>
         <div className="w-80 rounded-2xl bg-black border border-white">
      <div className="flex flex-col gap-2 p-8">
      <p className="text-center text-3xl text-gray-300 mb-4">Login</p>
@@ -68,10 +68,6 @@ function Login() {
    onClick={submit}>
     login
    </button>
-   <br />
-   <center>
-   <div onClick={()=>{setload(true)}}><Fire/></div>
-   </center>
    {load && (<div className="w-full gap-x-2 flex justify-center items-center">
   <div
     className="w-5 bg-[#d991c2]  h-5 rounded-full animate-bounce"
